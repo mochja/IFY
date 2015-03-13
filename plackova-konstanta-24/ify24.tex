@@ -1,0 +1,175 @@
+% GNUPLOT: LaTeX picture with Postscript
+\documentclass{minimal}
+% Set font size
+\makeatletter
+\def\@ptsize{7}
+\InputIfFileExists{size17.clo}{}{%
+   \GenericError{(gnuplot) \space\space\space\@spaces}{%
+      Gnuplot Error: File `size17.clo' not found! Could not set font size%
+   }{See the gnuplot documentation for explanation.%
+   }{For using a font size a file `size<fontsize>.clo' has to exist.
+        Falling back ^^Jto default fontsize 10pt.}%
+  \def\@ptsize{0}
+  \input{size10.clo}%
+}%
+\makeatother
+% Load packages
+\usepackage{graphicx}
+\usepackage{color}
+\makeatletter
+% Select an appropriate default driver (from TeXLive graphics.cfg)
+\begingroup
+  \chardef\x=0 %
+  % check pdfTeX
+  \@ifundefined{pdfoutput}{}{%
+    \ifcase\pdfoutput
+    \else
+      \chardef\x=1 %
+    \fi
+  }%
+  % check VTeX
+  \@ifundefined{OpMode}{}{%
+    \chardef\x=2 %
+  }%
+\expandafter\endgroup
+\ifcase\x
+  % default case
+  \PassOptionsToPackage{dvips}{geometry}
+\or
+  % pdfTeX is running in pdf mode
+  \PassOptionsToPackage{pdftex}{geometry}
+\else
+  % VTeX is running
+  \PassOptionsToPackage{vtex}{geometry}
+\fi
+\makeatother
+% Set papersize
+\usepackage[papersize={648.00bp,432.00bp},text={648.00bp,432.00bp}]{geometry}
+% No page numbers and no paragraph indentation
+\pagestyle{empty}
+\setlength{\parindent}{0bp}%
+% Load configuration file
+\InputIfFileExists{gnuplot.cfg}{%
+  \typeout{Using configuration file gnuplot.cfg}%
+}{%
+ \typeout{No configuration file gnuplot.cfg found.}%
+}%
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[slovak]{babel}
+\begin{document}
+\begingroup
+  \makeatletter
+  \providecommand\color[2][]{%
+    \GenericError{(gnuplot) \space\space\space\@spaces}{%
+      Package color not loaded in conjunction with
+      terminal option `colourtext'%
+    }{See the gnuplot documentation for explanation.%
+    }{Either use 'blacktext' in gnuplot or load the package
+      color.sty in LaTeX.}%
+    \renewcommand\color[2][]{}%
+  }%
+  \providecommand\includegraphics[2][]{%
+    \GenericError{(gnuplot) \space\space\space\@spaces}{%
+      Package graphicx or graphics not loaded%
+    }{See the gnuplot documentation for explanation.%
+    }{The gnuplot epslatex terminal needs graphicx.sty or graphics.sty.}%
+    \renewcommand\includegraphics[2][]{}%
+  }%
+  \providecommand\rotatebox[2]{#2}%
+  \@ifundefined{ifGPcolor}{%
+    \newif\ifGPcolor
+    \GPcolortrue
+  }{}%
+  \@ifundefined{ifGPblacktext}{%
+    \newif\ifGPblacktext
+    \GPblacktextfalse
+  }{}%
+  % define a \g@addto@macro without @ in the name:
+  \let\gplgaddtomacro\g@addto@macro
+  % define empty templates for all commands taking text:
+  \gdef\gplbacktext{}%
+  \gdef\gplfronttext{}%
+  \makeatother
+  \ifGPblacktext
+    % no textcolor at all
+    \def\colorrgb#1{}%
+    \def\colorgray#1{}%
+  \else
+    % gray or color?
+    \ifGPcolor
+      \def\colorrgb#1{\color[rgb]{#1}}%
+      \def\colorgray#1{\color[gray]{#1}}%
+      \expandafter\def\csname LTw\endcsname{\color{white}}%
+      \expandafter\def\csname LTb\endcsname{\color{black}}%
+      \expandafter\def\csname LTa\endcsname{\color{black}}%
+      \expandafter\def\csname LT0\endcsname{\color[rgb]{1,0,0}}%
+      \expandafter\def\csname LT1\endcsname{\color[rgb]{0,1,0}}%
+      \expandafter\def\csname LT2\endcsname{\color[rgb]{0,0,1}}%
+      \expandafter\def\csname LT3\endcsname{\color[rgb]{1,0,1}}%
+      \expandafter\def\csname LT4\endcsname{\color[rgb]{0,1,1}}%
+      \expandafter\def\csname LT5\endcsname{\color[rgb]{1,1,0}}%
+      \expandafter\def\csname LT6\endcsname{\color[rgb]{0,0,0}}%
+      \expandafter\def\csname LT7\endcsname{\color[rgb]{1,0.3,0}}%
+      \expandafter\def\csname LT8\endcsname{\color[rgb]{0.5,0.5,0.5}}%
+    \else
+      % gray
+      \def\colorrgb#1{\color{black}}%
+      \def\colorgray#1{\color[gray]{#1}}%
+      \expandafter\def\csname LTw\endcsname{\color{white}}%
+      \expandafter\def\csname LTb\endcsname{\color{black}}%
+      \expandafter\def\csname LTa\endcsname{\color{black}}%
+      \expandafter\def\csname LT0\endcsname{\color{black}}%
+      \expandafter\def\csname LT1\endcsname{\color{black}}%
+      \expandafter\def\csname LT2\endcsname{\color{black}}%
+      \expandafter\def\csname LT3\endcsname{\color{black}}%
+      \expandafter\def\csname LT4\endcsname{\color{black}}%
+      \expandafter\def\csname LT5\endcsname{\color{black}}%
+      \expandafter\def\csname LT6\endcsname{\color{black}}%
+      \expandafter\def\csname LT7\endcsname{\color{black}}%
+      \expandafter\def\csname LT8\endcsname{\color{black}}%
+    \fi
+  \fi
+  \setlength{\unitlength}{0.0500bp}%
+  \begin{picture}(12960.00,8640.00)%
+    \gplgaddtomacro\gplbacktext{%
+      \csname LTb\endcsname%
+      \put(1462,1088){\makebox(0,0)[r]{\strut{}-2}}%
+      \put(1462,1904){\makebox(0,0)[r]{\strut{}-1.5}}%
+      \put(1462,2721){\makebox(0,0)[r]{\strut{}-1}}%
+      \put(1462,3537){\makebox(0,0)[r]{\strut{}-0.5}}%
+      \put(1462,4354){\makebox(0,0)[r]{\strut{} 0}}%
+      \put(1462,5170){\makebox(0,0)[r]{\strut{} 0.5}}%
+      \put(1462,5986){\makebox(0,0)[r]{\strut{} 1}}%
+      \put(1462,6803){\makebox(0,0)[r]{\strut{} 1.5}}%
+      \put(1462,7619){\makebox(0,0)[r]{\strut{} 2}}%
+      \put(1666,748){\makebox(0,0){\strut{} 0}}%
+      \put(2717,748){\makebox(0,0){\strut{} 1e+14}}%
+      \put(3768,748){\makebox(0,0){\strut{} 2e+14}}%
+      \put(4819,748){\makebox(0,0){\strut{} 3e+14}}%
+      \put(5870,748){\makebox(0,0){\strut{} 4e+14}}%
+      \put(6922,748){\makebox(0,0){\strut{} 5e+14}}%
+      \put(7973,748){\makebox(0,0){\strut{} 6e+14}}%
+      \put(9024,748){\makebox(0,0){\strut{} 7e+14}}%
+      \put(10075,748){\makebox(0,0){\strut{} 8e+14}}%
+      \put(11126,748){\makebox(0,0){\strut{} 9e+14}}%
+      \put(12177,748){\makebox(0,0){\strut{} 1e+15}}%
+      \put(272,4353){\rotatebox{-270}{\makebox(0,0){\strut{}$U_b$[V]}}}%
+      \put(12516,4353){\rotatebox{-270}{\makebox(0,0){\strut{}}}}%
+      \put(6921,238){\makebox(0,0){\strut{}$f$[Hz]}}%
+      \put(6921,8129){\makebox(0,0){\strut{}Graf závislosti $U_b$ na frekvencii $f$}}%
+      \put(6921,7448){\makebox(0,0){\strut{}}}%
+      \put(442,170){\makebox(0,0)[l]{\strut{}}}%
+    }%
+    \gplgaddtomacro\gplfronttext{%
+      \csname LTb\endcsname%
+      \put(6358,7386){\makebox(0,0)[r]{\strut{}namerané hodnoty}}%
+      \csname LTb\endcsname%
+      \put(6358,7046){\makebox(0,0)[r]{\strut{}$ 3.688e^{-15} * x - 1.164$}}%
+    }%
+    \gplbacktext
+    \put(0,0){\includegraphics{ify24-inc}}%
+    \gplfronttext
+  \end{picture}%
+\endgroup
+\end{document}
